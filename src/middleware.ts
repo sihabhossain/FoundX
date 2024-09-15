@@ -3,6 +3,8 @@ import { NextRequest } from "next/server";
 
 const AuthRoutes = ["/login", "/register"];
 
+type Role = keyof typeof roleBasedRoutes;
+
 const roleBasedRoutes = {
   USER: [/^\/profile/],
   ADMIN: [/^\/admin/],
@@ -12,11 +14,11 @@ const roleBasedRoutes = {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  //   const user = {
-  //     name: "sihab",
-  //     token: "1230981disads8ad",
-  //     role: "USER",
-  //   };
+  // const user = {
+  //   name: "sihab",
+  //   token: "1230981disads8ad",
+  //   role: "USER",
+  // };
 
   const user = undefined;
 
@@ -27,6 +29,15 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
   }
+
+  if (user?.role && roleBasedRoutes[user?.role as Role]) {
+    const routes = roleBasedRoutes[user?.role as Role];
+
+    if (routes.some((route) => pathname.match(route))) {
+      return NextResponse.next();
+    }
+  }
+
   return NextResponse.redirect(new URL("/", request.url));
 }
 
