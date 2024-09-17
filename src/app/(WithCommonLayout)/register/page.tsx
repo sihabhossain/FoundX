@@ -2,6 +2,7 @@
 
 import FXForm from "@/src/components/form/FXForm";
 import FXInput from "@/src/components/form/FXInput";
+import { useUserResgistration } from "@/src/hooks/auth.hook";
 import registerValidationSchema from "@/src/schemas/register.schema";
 import { registerUser } from "@/src/services/AuthServices";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,11 +12,7 @@ import { useEffect } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 
 export default function RegisterPage() {
-  //   useEffect(() => {
-  //     if (isPending) {
-  //       // Handle Loading satate
-  //     }
-  //   }, [isPending]);
+  const { mutate: handleUserRegistration } = useUserResgistration();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const userData = {
@@ -24,9 +21,7 @@ export default function RegisterPage() {
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
     };
 
-    console.log(userData);
-
-    registerUser(userData);
+    handleUserRegistration(userData);
   };
 
   return (
