@@ -21,7 +21,7 @@ import NavbarDropdown from "./NavbarDropdown";
 import { siteConfig } from "@/src/config/site";
 import { ThemeSwitch } from "@/src/components/UI/theme-switch";
 import { useUser } from "@/src/context/user.provider";
-import { Logo } from "../icons";
+import { Logo } from "@/src/assets/icons";
 
 export const Navbar = () => {
   const { user, isLoading } = useUser();
